@@ -1,1 +1,53 @@
 Zet hier de arduino code
+
+//wit lichtje brand altijd
+//indien knop 1 -> groen
+//indien knop 2 -> rood
+
+int buttonState1 = 0;
+int buttonState2 = 0;
+
+// Create a variable
+const int buttonPin1 = 2;
+const int buttonPin2 = 3;
+const int ledWhite =  4;
+const int ledRed =  5;
+const int ledGreen =  6;
+bool ledUit = 0;
+
+void setup() {
+
+  pinMode(buttonPin1, INPUT);
+  pinMode(buttonPin2, INPUT);
+  pinMode(ledWhite, OUTPUT);
+  pinMode(ledGreen, OUTPUT);
+  pinMode(ledRed, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  buttonState1 = digitalRead(buttonPin1);
+  buttonState2 = digitalRead(buttonPin2);
+
+  Serial.println(buttonState1);
+
+  if (ledUit == true) {
+    digitalWrite(ledWhite, LOW);
+  }
+  else if (buttonState1 == 1 && buttonState2 == 1) {
+    digitalWrite(ledWhite, HIGH);
+  } else if (buttonState1 == 0 && buttonState2 == 1 ) {
+    digitalWrite(ledWhite, LOW);
+    digitalWrite(ledGreen, HIGH);
+    digitalWrite(ledRed, LOW);
+    ledUit = 1;
+  } else if (buttonState1 == 1 && buttonState2 == 0) {
+    digitalWrite(ledRed, HIGH);
+    for (int x = 0; x <= 10; x++) {
+      digitalWrite(ledWhite, HIGH);
+      delay(200);
+      digitalWrite(ledWhite, LOW);
+      delay(200);
+    }
+  }
+}
